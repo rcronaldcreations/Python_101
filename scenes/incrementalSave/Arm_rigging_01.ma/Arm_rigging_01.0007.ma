@@ -1,6 +1,6 @@
 //Maya ASCII 2022 scene
 //Name: Arm_rigging_01.ma
-//Last modified: Sun, Jan 29, 2023 02:15:49 PM
+//Last modified: Sun, Jan 29, 2023 12:12:12 PM
 //Codeset: UTF-8
 requires maya "2022";
 requires "stereoCamera" "10.0";
@@ -11,17 +11,17 @@ fileInfo "product" "Maya 2022";
 fileInfo "version" "2022";
 fileInfo "cutIdentifier" "202102181415-29bfc1879c";
 fileInfo "osv" "Mac OS X 10.16";
-fileInfo "UUID" "1F863F16-8542-8A03-2921-309C4CEAE9A8";
+fileInfo "UUID" "6C8C26E3-1047-543D-8904-DFA0F0F086F8";
 createNode transform -s -n "persp";
 	rename -uid "33840281-364D-5752-C752-BCBB8F1F5B5E";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 8.1381405613887488 16.918451979025491 20.251847532718745 ;
-	setAttr ".r" -type "double3" -45.338352729586703 21.800000000001695 1.7127642605747008e-15 ;
+	setAttr ".t" -type "double3" 7.9858528955260155 21.712258338770468 33.374844270301793 ;
+	setAttr ".r" -type "double3" -35.138352729583133 12.200000000000532 4.0675554542043228e-16 ;
 createNode camera -s -n "perspShape" -p "persp";
 	rename -uid "AA5AAD3F-4048-D41C-C2C5-158466E8944D";
 	setAttr -k off ".v" no;
 	setAttr ".fl" 34.999999999999986;
-	setAttr ".coi" 25.642212795474471;
+	setAttr ".coi" 40.114755480752365;
 	setAttr ".imn" -type "string" "persp";
 	setAttr ".den" -type "string" "persp_depth";
 	setAttr ".man" -type "string" "persp_mask";
@@ -148,17 +148,13 @@ createNode script -n "sceneConfigurationScriptNode";
 createNode blendColors -n "blendColors1";
 	rename -uid "0AE3C155-5E46-ACA8-2A15-EA96009EAA3A";
 createNode nodeGraphEditorInfo -n "MayaNodeEditorSavedTabsInfo";
-	rename -uid "A144535F-1E45-5EFD-1F1F-3FA1A69234D7";
-	setAttr -s 2 ".tgi";
+	rename -uid "164AA44D-2A4C-E1E2-1431-60ACD153A78D";
 	setAttr ".tgi[0].tn" -type "string" "Untitled_1";
 	setAttr ".tgi[0].vl" -type "double2" -661.59816637760855 -622.50546946489544 ;
 	setAttr ".tgi[0].vh" -type "double2" 1066.132877597815 246.40206918811435 ;
 	setAttr ".tgi[0].ni[0].x" 356.6683349609375;
 	setAttr ".tgi[0].ni[0].y" 16.415353775024414;
 	setAttr ".tgi[0].ni[0].nvs" 18306;
-	setAttr ".tgi[1].tn" -type "string" "Untitled_2";
-	setAttr ".tgi[1].vl" -type "double2" -269.32458128009654 -934.96108376379721 ;
-	setAttr ".tgi[1].vh" -type "double2" 2289.6136389614126 351.97574489851831 ;
 select -ne :time1;
 	setAttr ".o" 1;
 	setAttr ".unw" 1;
