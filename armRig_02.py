@@ -68,49 +68,25 @@ cmds.xform('grp_elbow_pv', t=elbow_pos, ws=True)
 # elbow_pos = cmds.xform('fk_elbow_jnt', q=True, t=True, ws=True)
 # shoulder_pos = cmds.xform('fk_shoulder_jnt', q=True, t=True, ws=True)
 
-fk_arm_ctrls = {}
+fk_ctrls = {}
 
-# Append the joints into the dictionary
-fk_arm_ctrls['fk_shoulders'] = [['grp_ctrl_fkShoulder', shoulder_pos], ['ctrl_fkShoulder', shoulder_pos]]
-fk_arm_ctrls['fk_elbows'] = [['grp_ctrl_fkElbow', elbow_pos], ['ctrl_fkElbow', elbow_pos]]
-fk_arm_ctrls['fk_wrists'] = [['grp_ctrl_fkWrist', wrist_pos], ['ctrl_fkWrist', wrist_pos]]
-
+# Append the grps and ctrls into the dictionary
+fk_ctrls['arm'] = [['grp_ctrl_fkShoulder', 'ctrl_fkShoulder', shoulder_pos], ['grp_ctrl_fkElbow', 'ctrl_fkElbow', elbow_pos], ['grp_ctrl_fkWrist', 'ctrl_fkWrist', wrist_pos]]
+fk_jnts = ['fk_shoulder_jnt', 'fk_elbow_jnt', 'fk_wrist_jnt']
 # Loop through the dictionary, and then loop through each value of the dictionary (that's the different joints)
-for key, value in fk_arm_ctrls.items():
-    for i in range(len(fk_arm_ctrls[key])):
-        cmds.group(em=True, name=value[i][0])
-        cmds.circle( n=value[i+1][0], nr=(0, 0, 1), c=(0, 0, 0) )
-        # cmds.parent('ctrl_fkWrist', 'grp_ctrl_fkWrist')
-        # cmds.xform('grp_ctrl_fkWrist', t=wrist_pos, ws=True)
-        # cmds.parentConstraint('ctrl_fkWrist', 'fk_wrist_jnt', mo=1)
-    if len(value) >= len(arm_jnts[key]): 
-        cmds.select(cl=1, sym=1)
+for key, value in fk_ctrls.items():
+    for i in range(len(fk_ctrls[key])):
+        # print(fk_jnts[i])
 
+        grp = cmds.group(em=True, name=value[i][0])
+        ctrl = cmds.circle(n=value[i][1], nr=(0, 0, 1), c=(0, 0, 0))
+        pos = value[i][2]
+        cmds.parent(ctrl, grp)
+        cmds.xform(grp, t=pos, ws=True)
+        cmds.parentConstraint(ctrl, fk_jnts[i], mo=1)
 
-# Create an empty groups for each
-cmds.group(em=True, name='grp_ctrl_fkWrist')
-cmds.group(em=True, name='grp_ctrl_fkElbow')
-cmds.group(em=True, name='grp_ctrl_fkShoulder')
-
-# Create circle control objects for each
-cmds.circle( n='ctrl_fkWrist', nr=(0, 0, 1), c=(0, 0, 0) )
-cmds.circle( n='ctrl_fkElbow', nr=(0, 0, 1), c=(0, 0, 0) )
-cmds.circle( n='ctrl_fkShoulder', nr=(0, 0, 1), c=(0, 0, 0) )
-
-# Parent the controls to the groups
-cmds.parent('ctrl_fkWrist', 'grp_ctrl_fkWrist')
-cmds.parent('ctrl_fkElbow', 'grp_ctrl_fkElbow')
-cmds.parent('ctrl_fkShoulder', 'grp_ctrl_fkShoulder')
-
-# Then transform the groups to their corresponding jnts.
-cmds.xform('grp_ctrl_fkWrist', t=wrist_pos, ws=True)
-cmds.xform('grp_ctrl_fkElbow', t=elbow_pos, ws=True)
-cmds.xform('grp_ctrl_fkShoulder', t=shoulder_pos, ws=True)
-
-# Parent contrain the joints to corresponding ctrls
-cmds.parentConstraint('ctrl_fkWrist', 'fk_wrist_jnt', mo=1)
-cmds.parentConstraint('ctrl_fkElbow', 'fk_elbow_jnt', mo=1)
-cmds.parentConstraint('ctrl_fkShoulder', 'fk_shoulder_jnt', mo=1)
+    # if len(value) >= len(arm_jnts[key]): 
+    #     cmds.select(cl=1, sym=1)
 
 # Parent the fk joint heirarchy
 cmds.parent('grp_ctrl_fkElbow', 'ctrl_fkShoulder')
