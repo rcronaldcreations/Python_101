@@ -5,20 +5,34 @@ elbow_pos = [0.0, 0.0, 0.0]
 wrist_pos = [6.0, 0.0, 4.0]
 wrist_end_pos = [10.0, 0.0, 4.0]
 
-# Create empty dictionary for all the arm joints
-arm_jnts = {}
+# # Create empty dictionary for all the arm joints
+# arm_jnts = {}
 
-# Append the joints into the dictionary
-arm_jnts['ik_jnts'] = [['ik_shoulder_jnt', shoulder_pos], ['ik_elbow_jnt', elbow_pos], ['ik_wrist_jnt', wrist_pos], ['ik_wristEnd_jnt', wrist_end_pos]]
-arm_jnts['fk_jnts'] = [['fk_shoulder_jnt', shoulder_pos], ['fk_elbow_jnt', elbow_pos], ['fk_wrist_jnt', wrist_pos], ['fk_wristEnd_jnt', wrist_end_pos]]
-arm_jnts['rig_jnts'] = [['rig_shoulder_jnt', shoulder_pos], ['rig_elbow_jnt', elbow_pos], ['rig_wrist_jnt', wrist_pos], ['rig_wristEnd_jnt', wrist_end_pos]]
+# # Append the joints into the dictionary
+# arm_jnts['ik_jnts'] = [['ik_shoulder_jnt', shoulder_pos], ['ik_elbow_jnt', elbow_pos], ['ik_wrist_jnt', wrist_pos], ['ik_wristEnd_jnt', wrist_end_pos]]
+# arm_jnts['fk_jnts'] = [['fk_shoulder_jnt', shoulder_pos], ['fk_elbow_jnt', elbow_pos], ['fk_wrist_jnt', wrist_pos], ['fk_wristEnd_jnt', wrist_end_pos]]
+# arm_jnts['rig_jnts'] = [['rig_shoulder_jnt', shoulder_pos], ['rig_elbow_jnt', elbow_pos], ['rig_wrist_jnt', wrist_pos], ['rig_wristEnd_jnt', wrist_end_pos]]
 
-# Loop through the dictionary, and then loop through each value of the dictionary (that's the different joints)
-for key, value in arm_jnts.items():
-    for i in range(len(arm_jnts[key])):
-        cmds.joint( n=value[i][0], p=value[i][1])
-    if len(value) >= len(arm_jnts[key]): 
-        cmds.select(cl=1, sym=1)
+# # Loop through the dictionary, and then loop through each value of the dictionary (that's the different joints)
+# for key, value in arm_jnts.items():
+#     for i in range(len(arm_jnts[key])):
+#         cmds.joint( n=value[i][0], p=value[i][1])
+#     if len(value) >= len(arm_jnts[key]): 
+#         cmds.select(cl=1, sym=1)
+
+### function implementation
+ik_jnt_list = [['ik_shoulder_jnt', shoulder_pos], ['ik_elbow_jnt', elbow_pos], ['ik_wrist_jnt', wrist_pos], ['ik_wristEnd_jnt', wrist_end_pos]]
+fk_jnt_list = [['fk_shoulder_jnt', shoulder_pos], ['fk_elbow_jnt', elbow_pos], ['fk_wrist_jnt', wrist_pos], ['fk_wristEnd_jnt', wrist_end_pos]]
+
+def createJoints(jntinfo):
+    for item in jntinfo:
+        cmds.joint( n=item[0], p=item[1])
+
+createJoints(ik_jnt_list)
+cmds.select(cl=1, sym=1)
+createJoints(fk_jnt_list)
+cmds.select(cl=1, sym=1)
+
 
 # Create IK handle
 
@@ -59,14 +73,6 @@ cmds.parent('elbow_pv','grp_elbow_pv')
 
 # translate it to the ik elbow
 cmds.xform('grp_elbow_pv', t=elbow_pos, ws=True)
-
-
-# Create FK Rig
-
-# Get ws position of wrist, elbow and shoulder fk joints
-# wrist_pos = cmds.xform('fk_wrist_jnt', q=True, t=True, ws=True)
-# elbow_pos = cmds.xform('fk_elbow_jnt', q=True, t=True, ws=True)
-# shoulder_pos = cmds.xform('fk_shoulder_jnt', q=True, t=True, ws=True)
 
 fk_ctrls = {}
 
